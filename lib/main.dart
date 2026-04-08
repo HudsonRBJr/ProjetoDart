@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/consumo/lista.dart';
+import 'screens/consumo_agua/lista.dart';
 
 void main() {
   runApp(const ControleAguaApp());
@@ -34,7 +34,7 @@ class ControleAguaApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const ListaConsumosAgua(),
+      home: ListaConsumos(),
     );
   }
 }

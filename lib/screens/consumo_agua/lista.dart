@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'formulario.dart';
-import '../../models/transferencia.dart';
+import '../../models/consumo_agua.dart';
 
-class ListaTransferencias extends StatefulWidget {
-  final List<Transferencia> _transferencias = [];
+class ListaConsumos extends StatefulWidget {
+  final List<ConsumoAgua> _consumos = [];
   @override
   State<StatefulWidget> createState() {
-    return ListaTranferenciaState();
+    return ListaConsumosState();
   }
 }
 
-class ListaTranferenciaState extends State<ListaTransferencias> {
-  static const _tituloAppBar = 'Transferência';
+class ListaConsumosState extends State<ListaConsumos> {
+  static const _tituloAppBar = 'Consumo de Água';
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +30,10 @@ class ListaTranferenciaState extends State<ListaTransferencias> {
       ),
 
       body: ListView.builder(
-        itemCount: widget._transferencias.length,
+        itemCount: widget._consumos.length,
         itemBuilder: (context, indice) {
-          final transferencia = widget._transferencias[indice];
-          return ItemTransferencia(transferencia);
+          final consumo = widget._consumos[indice];
+          return ItemConsumo(consumo);
         },
       ),
       floatingActionButton: FloatingActionButton(
@@ -44,10 +44,10 @@ class ListaTranferenciaState extends State<ListaTransferencias> {
             context,
             MaterialPageRoute(
               builder: (context) {
-                return FormularioTransferencia();
+                return FormularioConsumo();
               },
             ),
-          ).then((transferenciaRecebida) => _atualiza(transferenciaRecebida));
+          ).then((consumoRecebido) => _atualiza(consumoRecebido));
         },
         child: Icon(Icons.add),
       ),
@@ -55,27 +55,27 @@ class ListaTranferenciaState extends State<ListaTransferencias> {
     );
   }
 
-  void _atualiza(Transferencia? transferenciaRecebida) {
-    if (transferenciaRecebida != null) {
+  void _atualiza(ConsumoAgua? consumoRecebido) {
+    if (consumoRecebido != null) {
       setState(() {
-        widget._transferencias.add(transferenciaRecebida);
+        widget._consumos.add(consumoRecebido);
       });
     }
   }
 }
 
-class ItemTransferencia extends StatelessWidget {
-  final Transferencia _transferencia;
+class ItemConsumo extends StatelessWidget {
+  final ConsumoAgua _consumo;
 
-  ItemTransferencia(this._transferencia);
+  ItemConsumo(this._consumo);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
-        leading: Icon(Icons.monetization_on),
-        title: Text(_transferencia.valor.toString()),
-        subtitle: Text(_transferencia.numeroConta.toString()),
+        leading: Icon(Icons.water_drop),
+        title: Text('${_consumo.atividade} - ${_consumo.litros} L'),
+        subtitle: Text(_consumo.horario),
       ),
     );
   }
