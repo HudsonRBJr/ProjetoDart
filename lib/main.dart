@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'screens/consumo_agua/lista.dart';
+import 'screens/dashboard.dart';
 
 void main() {
   runApp(const ControleAguaApp());
@@ -20,9 +20,7 @@ class ControleAguaApp extends StatelessWidget {
           seedColor: Colors.blue,
           brightness: Brightness.light,
         ),
-        appBarTheme: const AppBarTheme(
-          centerTitle: true,
-        ),
+        appBarTheme: const AppBarTheme(centerTitle: true),
         cardTheme: CardThemeData(
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(16),
@@ -34,7 +32,7 @@ class ControleAguaApp extends StatelessWidget {
           ),
         ),
       ),
-      home: ListaConsumos(),
+      home: const DashboardScreen(),
     );
   }
 }

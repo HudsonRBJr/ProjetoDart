@@ -22,8 +22,9 @@ class Editor extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: TextField(
         controller: controlador,
-        keyboardType: tipoTeclado,
+        keyboardType: tipoTeclado ?? TextInputType.text,
         decoration: InputDecoration(
+          border: const OutlineInputBorder(),
           labelText: rotulo,
           hintText: dica,
           prefixIcon: icone != null ? Icon(icone) : null,

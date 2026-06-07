@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: controle-agua-api
+    env: node
+    rootDir: api
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: controle-agua-db
+          property: connectionString
+
+databases:
+  - name: controle-agua-db
+    databaseName: controle_agua
+    user: controle_agua_user

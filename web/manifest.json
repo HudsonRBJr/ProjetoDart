@@ -1,11 +1,11 @@
 {
-    "name": "bank",
-    "short_name": "bank",
+    "name": "Controle Água",
+    "short_name": "Controle Água",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Controle de Consumo de Água",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

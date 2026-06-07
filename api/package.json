@@ -1,0 +1,20 @@
+{
+  "name": "controle-agua-api",
+  "version": "1.0.0",
+  "description": "API Node.js/Express para o app Controle de Consumo de Água.",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "pg": "^8.13.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

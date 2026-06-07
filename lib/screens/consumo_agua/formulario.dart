@@ -1,105 +1,119 @@
 import 'package:flutter/material.dart';
+
 import '../../components/editor.dart';
 import '../../models/consumo_agua.dart';
 
 class FormularioConsumo extends StatefulWidget {
-  final TextEditingController _controladorCampoAtividade =
-      TextEditingController();
-  final TextEditingController _controladorCampoLitros = TextEditingController();
-  final TextEditingController _controladorCampoHorario = TextEditingController();
+  final ConsumoAgua? consumo;
+
+  const FormularioConsumo({super.key, this.consumo});
 
   @override
-  State<StatefulWidget> createState() {
-    return FormularioConsumoState();
-  }
+  State<FormularioConsumo> createState() => _FormularioConsumoState();
 }
 
-class FormularioConsumoState extends State<FormularioConsumo> {
-  
-  static const _tituloAppBar = 'Novo Consumo de Água';
-  static const _rotuloCampoAtividade = 'Atividade';
-  static const _dicaCampoAtividade = 'Ex: Banho, Lavar louça';
+class _FormularioConsumoState extends State<FormularioConsumo> {
+  static const String _rotuloCampoAtividade = 'Atividade';
+  static const String _dicaCampoAtividade = 'Ex: Banho, lavar louça';
+  static const String _rotuloCampoLitros = 'Litros';
+  static const String _dicaCampoLitros = '0.0';
+  static const String _rotuloCampoHorario = 'Horário';
+  static const String _dicaCampoHorario = 'HH:MM';
 
-  static const _rotuloCampoLitros = 'Litros';
-  static const _dicaCampoLitros = '0.0';
-  static const _rotuloCampoHorario = 'Horário';
-  static const _dicaCampoHorario = 'HH:MM';
-  static const _textBotaoConfirmar = 'Confirmar';
+  late final TextEditingController _controladorCampoAtividade;
+  late final TextEditingController _controladorCampoLitros;
+  late final TextEditingController _controladorCampoHorario;
 
-  
+  bool get _editando => widget.consumo != null;
+
+  @override
+  void initState() {
+    super.initState();
+    _controladorCampoAtividade = TextEditingController(
+      text: widget.consumo?.atividade ?? '',
+    );
+    _controladorCampoLitros = TextEditingController(
+      text: widget.consumo?.litros.toString() ?? '',
+    );
+    _controladorCampoHorario = TextEditingController(
+      text: widget.consumo?.horario ?? '',
+    );
+  }
+
+  @override
+  void dispose() {
+    _controladorCampoAtividade.dispose();
+    _controladorCampoLitros.dispose();
+    _controladorCampoHorario.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          _tituloAppBar,
-          // style: TextStyle(
-          //   color: Colors.white70,
-          //   fontSize: 20,
-          //   fontWeight: FontWeight.bold,
-          // ),
-        ),
-        //backgroundColor: const Color.fromRGBO(33, 150, 243, 1),
+        title: Text(_editando ? 'Editar consumo de água' : 'Novo consumo de água'),
       ),
-
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
+            const SizedBox(height: 12),
             Editor(
-              controlador: widget._controladorCampoAtividade,
+              controlador: _controladorCampoAtividade,
               rotulo: _rotuloCampoAtividade,
               dica: _dicaCampoAtividade,
+              icone: Icons.task_alt,
             ),
             Editor(
-              controlador: widget._controladorCampoLitros,
+              controlador: _controladorCampoLitros,
               rotulo: _rotuloCampoLitros,
               dica: _dicaCampoLitros,
               icone: Icons.water_drop,
-              tipoTeclado: TextInputType.number,
+              tipoTeclado: const TextInputType.numberWithOptions(decimal: true),
             ),
             Editor(
-              controlador: widget._controladorCampoHorario,
+              controlador: _controladorCampoHorario,
               rotulo: _rotuloCampoHorario,
               dica: _dicaCampoHorario,
+              icone: Icons.schedule,
             ),
-
-            ElevatedButton(
-              child: Text(_textBotaoConfirmar),
-              onPressed: () {
-                debugPrint("Clicou no Confirmar!");
-                _criaConsumo(
-                  context,
-                  widget._controladorCampoAtividade,
-                  widget._controladorCampoLitros,
-                  widget._controladorCampoHorario,
-                );
-              },
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ElevatedButton.icon(
+                icon: Icon(_editando ? Icons.save : Icons.add),
+                label: Text(_editando ? 'Salvar alterações' : 'Cadastrar'),
+                onPressed: _confirmar,
+              ),
             ),
           ],
         ),
       ),
     );
   }
-}
 
-void _criaConsumo(
-  BuildContext context,
-  TextEditingController controladorCampoAtividade,
-  TextEditingController controladorCampoLitros,
-  TextEditingController controladorCampoHorario,
-) {
-  final String atividade = controladorCampoAtividade.text;
-  final double? litros = double.tryParse(controladorCampoLitros.text);
-  final String horario = controladorCampoHorario.text;
+  void _confirmar() {
+    final String atividade = _controladorCampoAtividade.text.trim();
+    final String litrosTexto = _controladorCampoLitros.text.trim().replaceAll(',', '.');
+    final double? litros = double.tryParse(litrosTexto);
+    final String horario = _controladorCampoHorario.text.trim();
 
-  if (atividade.isNotEmpty && litros != null && horario.isNotEmpty) {
-    final consumoCriado = ConsumoAgua(
+    if (atividade.isEmpty || litros == null || litros <= 0 || horario.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Preencha atividade, litros válidos e horário.'),
+        ),
+      );
+      return;
+    }
+
+    final ConsumoAgua consumo = ConsumoAgua(
+      id: widget.consumo?.id,
       atividade: atividade,
       litros: litros,
       horario: horario,
     );
-    debugPrint("Criando Consumo...");
-    debugPrint("$consumoCriado");
-    Navigator.pop(context, consumoCriado);
+
+    Navigator.pop(context, consumo);
   }
 }
