@@ -1,221 +1,321 @@
-# Controle de Consumo de Água
+# Projeto Avaliativo 2º Bimestre — Controle de Consumo de Água
 
 ## Identificação do projeto
 
-```text
-Nome da temática do aplicativo: Controle de Consumo de Água
-Integrante 1: Hudson Ribeiro Barbara Junior
-Integrante 2 (se houver):
-Integrante 3 (se houver):
-```
+**Nome da temática do aplicativo:** Controle de Consumo de Água
 
-Caso o repositório fique privado, adicione o professor:
-
-```text
-@adrianoprof
-```
+**Integrante 1:** Hudson Ribeiro Barbara Junior — [@HudsonRBJr](https://github.com/HudsonRBJr)
+**Integrante 2:** Gustavo Schizari — [@schizary](https://github.com/schizary)
+**Integrante 3:** Eduardo Gibertone — [@EduardoGibertoni](https://github.com/EduardoGibertoni)
 
 ---
 
-## Descrição
+## Sobre o projeto
 
-Este projeto é a continuação do aplicativo Flutter do 1º bimestre. A temática mantida é **Controle de Consumo de Água**.
+Este projeto é uma continuação do aplicativo Flutter desenvolvido no 1º bimestre, mantendo a temática de **controle de consumo de água**.
 
-O aplicativo permite cadastrar, listar, editar e excluir registros de consumo de água, informando:
+Nesta etapa, o aplicativo foi evoluído para trabalhar com persistência de dados local e remota. O app permite cadastrar, listar, editar e excluir registros de consumo de água, contendo informações como atividade realizada, quantidade de litros utilizados e horário do consumo.
 
-- atividade;
-- quantidade de litros;
-- horário.
+O projeto utiliza:
 
-Nesta versão do 2º bimestre, o projeto foi organizado para trabalhar com:
-
-- persistência local com SQLite;
-- API própria em Node.js/Express;
-- PostgreSQL no Render;
-- camada `services` para comunicação com a API;
-- camada `repository` para escolher entre persistência local e remota.
+* **SQLite** para persistência local no aplicativo Flutter;
+* **API própria em Node.js com Express**, publicada no Render;
+* **PostgreSQL no Render** para persistência remota;
+* **Camada service** para comunicação com a API;
+* **Camada repository** para organizar a escolha entre persistência local e remota.
 
 ---
 
-## Estrutura principal do Flutter
+## Tecnologias utilizadas
 
-```text
-lib/
-├── components/
-│   └── editor.dart
-├── db/
-│   └── app_database.dart
-├── models/
-│   └── consumo_agua.dart
-├── repository/
-│   └── consumo_agua_repository.dart
-├── screens/
-│   ├── dashboard.dart
-│   └── consumo_agua/
-│       ├── formulario.dart
-│       └── lista.dart
-├── services/
-│   └── consumo_agua_service.dart
-└── main.dart
-```
+### Aplicativo mobile
 
-A tela principal não acessa SQLite nem API diretamente. Ela utiliza a camada `repository`, que decide se os dados serão gravados localmente ou remotamente.
+* Dart
+* Flutter
+* SQLite
+* HTTP
+
+### API
+
+* Node.js
+* Express
+* PostgreSQL
+* Render
 
 ---
 
-## Estrutura da API
+## Estrutura completa do projeto
 
 ```text
-api/
-├── src/
-│   ├── database.js
-│   └── server.js
-├── .env.example
+ProjetoDart/
+├── android/
+├── api/
+│   ├── src/
+│   │   ├── database.js
+│   │   └── server.js
+│   ├── .env.example
+│   ├── .gitignore
+│   ├── package.json
+│   └── README.md
+├── docs/
+├── ios/
+├── lib/
+│   ├── components/
+│   ├── db/
+│   ├── models/
+│   ├── repository/
+│   ├── screens/
+│   ├── services/
+│   └── main.dart
+├── linux/
+├── macos/
+├── test/
+├── web/
+│   ├── icons/
+│   ├── favicon.png
+│   ├── index.html
+│   └── manifest.json
+├── windows/
 ├── .gitignore
-├── package.json
-└── README.md
+├── .metadata
+├── analysis_options.yaml
+├── pubspec.lock
+├── pubspec.yaml
+├── read.me
+├── README.md
+└── render.yaml
 ```
 
-A API utiliza:
+### Descrição das principais pastas
 
-- Node.js;
-- Express;
-- PostgreSQL;
-- pacote `pg`;
-- variável de ambiente `DATABASE_URL`.
+* `android`: arquivos de configuração para execução do app em dispositivos Android.
+* `ios`: arquivos de configuração para execução do app em dispositivos iOS.
+* `lib`: pasta principal do aplicativo Flutter.
+* `components`: componentes reutilizáveis da interface.
+* `db`: configuração e operações relacionadas ao SQLite.
+* `models`: modelos de dados utilizados no aplicativo.
+* `repository`: camada responsável por organizar a escolha entre persistência local e remota.
+* `screens`: telas do aplicativo.
+* `services`: camada responsável pela comunicação com a API remota.
+* `api`: API própria desenvolvida em Node.js com Express.
+* `api/src/database.js`: configuração de conexão com o PostgreSQL.
+* `api/src/server.js`: arquivo principal da API, contendo as rotas.
+* `docs`: pasta para documentação do projeto.
+* `web`, `windows`, `linux` e `macos`: arquivos gerados pelo Flutter para suporte a outras plataformas.
+* `read.me`: arquivo de identificação solicitado no enunciado.
+* `README.md`: documentação principal do projeto.
+* `render.yaml`: arquivo de configuração relacionado ao deploy no Render.
+
+---
+
+## Funcionalidades do aplicativo
+
+O aplicativo possui:
+
+* Tela inicial/dashboard;
+* Tela de listagem de registros;
+* Formulário de cadastro;
+* Cadastro de consumo de água;
+* Listagem dos registros cadastrados;
+* Edição de registros;
+* Exclusão de registros;
+* Atualização visual da lista após cadastro, edição ou exclusão;
+* Mensagens de erro ou sucesso quando necessário;
+* Alternância entre persistência local e remota.
+
+---
+
+## Persistência local com SQLite
+
+O aplicativo utiliza SQLite para armazenar os registros localmente no dispositivo.
+
+Dessa forma, os dados cadastrados no modo local continuam disponíveis mesmo após fechar e abrir o aplicativo novamente.
+
+---
+
+## API publicada no Render
+
+A API foi desenvolvida utilizando **Node.js** e **Express**, publicada no **Render** e conectada a um banco **PostgreSQL** também hospedado no Render.
+
+**Link da API publicada:**
+
+```text
+https://controle-agua-api.onrender.com
+```
 
 ---
 
 ## Rotas da API
 
-URL base local:
+### Verificar status da API
 
-```text
-http://localhost:3000
+```http
+GET /health
 ```
 
-Depois de publicar no Render, a URL será parecida com:
+Exemplo:
 
 ```text
-https://sua-api.onrender.com
+https://controle-agua-api.onrender.com/health
 ```
-
-| Método | Rota | Função | Parâmetros/Corpo |
-| --- | --- | --- | --- |
-| GET | `/health` | Verificar funcionamento da API | nenhum |
-| GET | `/consumos` | Listar registros | nenhum |
-| POST | `/consumos` | Cadastrar registro | `{ "atividade": "Banho", "litros": 50, "horario": "19:30" }` |
-| PUT | `/consumos/:id` | Atualizar registro | parâmetro `id` e corpo com `atividade`, `litros`, `horario` |
-| DELETE | `/consumos/:id` | Deletar registro | parâmetro `id` |
 
 ---
 
-## Como rodar o Flutter
+### Listar registros
 
-Na pasta raiz do projeto Flutter:
+```http
+GET /consumos
+```
+
+Exemplo:
+
+```text
+https://controle-agua-api.onrender.com/consumos
+```
+
+---
+
+### Cadastrar registro
+
+```http
+POST /consumos
+```
+
+Exemplo de corpo da requisição:
+
+```json
+{
+  "atividade": "Banho",
+  "litros": 50,
+  "horario": "19:30"
+}
+```
+
+---
+
+### Atualizar registro
+
+```http
+PUT /consumos/:id
+```
+
+Exemplo:
+
+```text
+https://controle-agua-api.onrender.com/consumos/1
+```
+
+Exemplo de corpo da requisição:
+
+```json
+{
+  "atividade": "Banho atualizado",
+  "litros": 60,
+  "horario": "20:00"
+}
+```
+
+---
+
+### Deletar registro
+
+```http
+DELETE /consumos/:id
+```
+
+Exemplo:
+
+```text
+https://controle-agua-api.onrender.com/consumos/1
+```
+
+---
+
+## Integração do Flutter com a API
+
+O aplicativo possui uma camada de serviço responsável pela comunicação com a API remota.
+
+A URL da API pode ser informada na execução do aplicativo com o comando:
+
+```bash
+flutter run --dart-define=API_URL=https://controle-agua-api.onrender.com
+```
+
+O app permite utilizar os dados de duas formas:
+
+* **Local:** utilizando SQLite;
+* **Remoto:** utilizando a API publicada no Render com PostgreSQL.
+
+A tela principal não acessa diretamente o SQLite ou a API. A comunicação é organizada por meio da camada `repository`.
+
+---
+
+## Como executar o projeto Flutter
+
+Instale as dependências:
 
 ```bash
 flutter pub get
-flutter run
 ```
 
-Por padrão, o app usa a URL placeholder:
-
-```text
-https://sua-api-controle-agua.onrender.com
-```
-
-Após publicar a API no Render, rode o app informando a URL real:
+Execute o aplicativo usando a API publicada no Render:
 
 ```bash
-flutter run --dart-define=API_URL=https://sua-api.onrender.com
-```
-
-Também é possível alterar a URL diretamente no arquivo:
-
-```text
-lib/services/consumo_agua_service.dart
+flutter run --dart-define=API_URL=https://controle-agua-api.onrender.com
 ```
 
 ---
 
-## Como rodar a API localmente
+## Como executar a API localmente
 
 Entre na pasta da API:
 
 ```bash
 cd api
+```
+
+Instale as dependências:
+
+```bash
 npm install
-cp .env.example .env
-npm run dev
 ```
 
-No arquivo `.env`, configure a variável:
+Crie um arquivo `.env` com a variável de conexão do PostgreSQL:
+
+```env
+DATABASE_URL=sua_url_do_postgresql
+PORT=3000
+```
+
+Execute a API:
+
+```bash
+npm start
+```
+
+---
+
+## Entrega
+
+O projeto Flutter e a API estão no mesmo repositório.
+
+A API está localizada na pasta:
 
 ```text
-DATABASE_URL=postgresql://usuario:senha@host:5432/banco
+/api
 ```
 
----
-
-## Como publicar a API no Render
-
-O arquivo `render.yaml` foi incluído para facilitar o deploy como Blueprint, mas você também pode fazer manualmente.
-
-1. Crie um banco PostgreSQL no Render.
-2. Copie a URL interna do banco.
-3. Crie um Web Service no Render apontando para este repositório.
-4. Configure a pasta da API como serviço Node.js.
-5. Use:
+**Link da API publicada no Render:**
 
 ```text
-Build Command: npm install
-Start Command: npm start
+https://controle-agua-api.onrender.com
 ```
 
-6. Adicione as variáveis de ambiente:
+O vídeo demonstrativo apresenta o funcionamento do aplicativo mobile, mostrando:
 
-```text
-DATABASE_URL=URL_DO_POSTGRESQL_DO_RENDER
-NODE_ENV=production
-```
-
-7. Depois que a API publicar, copie a URL pública e use no Flutter com `--dart-define=API_URL=...`.
-
----
-
-## Funcionalidades implementadas
-
-- Tela inicial/dashboard.
-- Tela de listagem.
-- Tela de formulário.
-- Navegação com `Navigator.push()` e `Navigator.pop()`.
-- Cadastro de consumo.
-- Edição de consumo.
-- Exclusão de consumo.
-- Atualização visual da lista após cadastro, edição ou exclusão.
-- Mensagens de erro e sucesso com `SnackBar`.
-- Persistência local com SQLite.
-- Integração remota via API.
-- Repository para escolher entre SQLite local e API remota.
-
----
-
-## O que demonstrar no vídeo
-
-O vídeo deve mostrar apenas o funcionamento do aplicativo mobile:
-
-1. abrir o aplicativo;
-2. mostrar o dashboard;
-3. abrir a listagem com SQLite local;
-4. cadastrar um novo consumo;
-5. mostrar a atualização da lista;
-6. editar ou excluir um consumo;
-7. abrir a opção remota após publicar a API no Render;
-8. mostrar o funcionamento geral relacionado ao controle de consumo de água.
-
----
-
-## Observação importante
-
-A API já está pronta no código, mas a publicação no Render precisa ser feita manualmente na conta do grupo, porque exige acesso ao GitHub/Render e criação do banco PostgreSQL.
+* abertura do aplicativo;
+* listagem dos registros;
+* cadastro de um novo registro;
+* atualização visual da lista;
+* edição ou exclusão de registro;
+* funcionamento com persistência local e remota.
